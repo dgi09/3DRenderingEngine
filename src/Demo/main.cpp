@@ -11,6 +11,8 @@
 #include <time.h>
 #include "InputManager.h"
 #include "FPSCameraController.h"
+#include <chrono>
+#include <thread>
 
 
 #define LOOP_STYLE
@@ -198,12 +200,13 @@ int WINAPI WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	fps.SetCamera(camPtr);
 	fps.SetMovementSpeed(2.0f);
 
+
+
 #ifdef LOOP_STYLE
-	long time = GetTickCount();
+	
 	while(window->IsOpen())
 	{
-		if(GetTickCount() - time < 12)
-			continue;
+		auto begin = std::chrono::high_resolution_clock::now();
 
 		dragonTime++;
 
@@ -251,7 +254,12 @@ int WINAPI WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 		scene->DrawAll();
 
-		time  = GetTickCount();
+		auto end = std::chrono::high_resolution_clock::now();
+
+		int delta = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+
+		if(delta < 13)
+			std::this_thread::sleep_for(std::chrono::milliseconds(13 - delta));
 	}
 
 #else 
