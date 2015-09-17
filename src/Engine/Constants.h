@@ -1,0 +1,7 @@
+#pragma once 
+#define MAX_DIRECTIONAL_LIGHTS 5
+#define MAX_POINT_LIGHTS 20
+#define MAX_BONES 50
+
+#define MAX_VERTS 10000
+#define MAX_INDECIES 20000
