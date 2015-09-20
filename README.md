@@ -16,6 +16,7 @@ Single - Threaded 3D Rendering engine
  - Memory Management
  - Lights ( Point , Directional , Ambient)
  - Post Processing (Bloom , Blur)
+ - Gamma Correction
 
 Format Converter : 
 
