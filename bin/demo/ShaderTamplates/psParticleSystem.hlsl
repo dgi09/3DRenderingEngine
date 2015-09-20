@@ -28,6 +28,7 @@ PS_OUT main(VS_OUT input)
 	PS_OUT output = (PS_OUT)0;
 	
 	float4 s = color.Sample(samp,input.uv);
+	s.rgb = pow(s.rgb,2.2);
 	s.w *= input.opacityFactor;
 
 	output.color = s;

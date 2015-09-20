@@ -21,13 +21,30 @@ SamplerState LinSamp
 	AddressV = WRAP;
 };
 
+float A = 0.15;
+float B = 0.50;
+float C = 0.10;
+float D = 0.20;
+float E = 0.02;
+float F = 0.30;
+float W = 11.2;
+
+float3 Tonemap(float3 x)
+{
+   return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;
+}
+
 float4 main(VS_OUT input) : SV_TARGET
 {
 	float3 inColor =  hdr.Sample(Samp,input.uv).rgb;
 	float3 bloom = bloomTexture.Sample(LinSamp,input.uv).rgb;
 	inColor += bloom;
+	//inColor *= 16.0f;
 
-	float3 x = max(0,inColor - 0.004);
-    float3 retColor = (x*(6.2*x+.5))/(x*(6.2*x+1.7)+0.06);
-    return float4(retColor,1);
+	float3 curr = Tonemap(inColor);
+
+    float3 whiteScale = 1.0f/Tonemap(W);
+    float3 color = curr*whiteScale;
+
+    return float4(color,1);
 }

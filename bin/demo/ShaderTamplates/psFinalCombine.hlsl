@@ -24,9 +24,17 @@ float4 main(VS_OUT input) : SV_TARGET
 	float ntD = ntDepth.Sample(Samp,input.uv).r;
 	float partD = particlesDepth.Sample(Samp,input.uv).r;
 
+	float3 color;
 	if(partD < ntD)
 	{
-		return float4(particlesColor.rgb * particlesColor.a + nonTranspColor * (1.0f - particlesColor.a),1.0f);
+		color = particlesColor.rgb * particlesColor.a + nonTranspColor * (1.0f - particlesColor.a);
 	}
-	else return float4(nonTranspColor,1.0f);
+	else 
+	{
+		color = nonTranspColor;
+	}
+
+	color = pow(color,1/2.2);
+
+	return float4(color,1.0f);
 }
